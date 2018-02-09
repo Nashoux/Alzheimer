@@ -22,7 +22,6 @@ public class Controller : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
                 avatarAgent.SetDestination(hit.point);
-            
         }
 
 	}

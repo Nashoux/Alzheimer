@@ -32,25 +32,14 @@ public class PlayerSave	{
 	public class Save
 	{
 		public string fileName;
-		public string name;
-		public Dictionary<string, int> quizzHightScore;
-		public Dictionary<string, string> cloth;
-
-		public Save (string fileName, string name)
+	
+		public Save (string fileName)
 		{
 			this.fileName = fileName;
-			this.name = name;
 		}
 	}
 
 
-	public enum LastGameType
-	{
-		NoMiniGame,
-		Quizz,
-		Action,
-		Reflexion
-	}
 
 	private string			m_saveFolder;
 	private string			m_current_filePath;
@@ -68,105 +57,22 @@ public class PlayerSave	{
 
 	#region getter and setter
 
-	public List<Save> SaveList { get { return m_saves; } }
-
-	public LastGameType LastGame { get { return m_datas.lastGame; } set { m_datas.lastGame = value; } }	
 
 
 
-	public void genderSet(string newGender){
-		m_datas.gender = newGender;
+
+	public void ZoneSet(int result, string zoneName){
+		m_datas.actualZoneCompleted[zoneName] = result;
 	}
 
-	public string genderGet(){
-		return m_datas.gender;
+	public int ZoneGet(string zoneName){
+		return m_datas.actualZoneCompleted[zoneName];
 	}
 
-	public void skinColorSet(float r, float g, float b){
-		m_datas.skinColor [0] = r;
-		m_datas.skinColor [1] = g;
-		m_datas.skinColor [2] = b;
+	public Dictionary<string,int> ZoneAllGet(){
+		return m_datas.actualZoneCompleted;
 	}
 
-	public float[] skinColorGet(){
-		return m_datas.skinColor;
-	}
-
-	public void hairColorSet(float r, float g, float b){
-		m_datas.hairColor [0] = r;
-		m_datas.hairColor [1] = g;
-		m_datas.hairColor [2] = b;
-	}
-
-	public float[] hairColorGet(){
-		return m_datas.hairColor;
-	}
-
-	public void eyeColorSet(float r, float g, float b){
-		m_datas.eyeColor [0] = r;
-		m_datas.eyeColor [1] = g;
-		m_datas.eyeColor [2] = b;
-	}
-
-	public float[] eyeColorGet(){
-		return m_datas.eyeColor;
-	}
-
-	public void lastEnvSet(string newEnv){
-		m_datas.lastEnv = newEnv;
-	}
-
-	public string lastEnvGet(){
-		return m_datas.lastEnv;
-	}
-
-
-	public void nameSet(string newName){
-
-		m_datas.name = newName;
-		if (m_currentSave != null)
-			m_currentSave.name = newName;
-	}
-
-	public string nameGet(){
-		return m_datas.name;
-	}
-
-	public void tutoStepAdd(){
-		m_datas.tutoDone++;
-	}
-
-	public int tutoStepGet(){
-		return (int)m_datas.tutoDone;
-	}
-
-	public void diamondsAdd(string area){
-		m_datas.diamonds [area] = true;
-		int zonesCompleted = diamondsGet();
-	}
-
-	public bool diamondsGet(string area)
-	{
-		return m_datas.diamonds[area];
-	}
-
-	public int diamondsGet(){
-		int x = 0;
-		foreach (string a in m_datas.diamonds.Keys) {
-			if (m_datas.diamonds [a] == true) {
-				x++;
-			}
-		}
-		return x;
-	}
-
-	public void LastScoreSet(int f){
-		m_datas.lastScore = f;
-	}
-
-	public int LastScoreGet()	{
-		return m_datas.lastScore;
-	}
 
 	#endregion
 
@@ -191,7 +97,7 @@ public class PlayerSave	{
 				string saveName = Path.GetFileName(saves[i]);
 				m_current_filePath = m_saveFolder + saveName;
 				LoadDatas();
-				Save newSave = new Save(saveName, m_datas.name);
+				Save newSave = new Save(saveName);
 				m_saves.Add(newSave);
 			}
 		}
@@ -210,7 +116,7 @@ public class PlayerSave	{
 		string newFileName = m_LastId + ".sav";
 		m_current_filePath = m_saveFolder + newFileName;
 		m_datas = new PlayerDatas();
-		m_currentSave = new Save(newFileName, m_datas.name);
+		m_currentSave = new Save(newFileName);
 		m_saves.Add(m_currentSave);
 		SaveDatas();
 	}
@@ -228,10 +134,6 @@ public class PlayerSave	{
 		m_current_filePath = m_saveFolder + save.fileName;
 		File.Delete(m_current_filePath);
 		LoadDatas();
-	}
-
-	public void UnlockAllDiamonds() {
-		m_datas.diamonds = new Dictionary<string, bool>(){ {"jungle",true},{"sahara", true},{"mediterranean", true} , {"ruins", true}, {"mountain",true},{"savane", true},{"mangrove", true},{"fleuve", true},{"village", true},{"urban", true},{"ocean",true}};
 	}
 
 
@@ -277,26 +179,9 @@ public class PlayerSave	{
 	[System.Serializable]
 	public class PlayerDatas{
 
-	
-		public float[] skinColor = new float[]{96,61,44};
-
-		public float[] hairColor = new float[]{126,56,56};
-
-		public float[] eyeColor = new float[]{180,132,16};
-
-		public LastGameType lastGame = LastGameType.NoMiniGame;
-
-		public int lastScore = 0;
-
-		public float tutoDone = 0;
-
-		public string gender = "woman";
-
-		public string name = "Avatar";
-
-		public string lastEnv = "SceneMapPrincipale";
-
-		public Dictionary<string, bool> diamonds = new Dictionary<string, bool>(){ {"jungle",false},{"sahara", false},{"mediterranean", false} , {"ruins", false}, {"mountain",false},{"savane", false},{"mangrove", false},{"fleuve", false},{"village", false},{"urban", false},{"ocean",false}};
-	}
+			public  Dictionary<string, int> actualZoneCompleted = new Dictionary<string, int>(){ {"zone1",0}, {"zone2",0},{"zone3",0},{"zone4",0},{"zone5",0} };
+			public  Dictionary<string, int> LastZoneCompleted = new Dictionary<string, int>(){ {"zone1",0}, {"zone2",0},{"zone3",0},{"zone4",0},{"zone5",0} };
+			
+		}
 
 }	

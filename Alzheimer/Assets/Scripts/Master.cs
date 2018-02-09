@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class Master : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	List<bool> way1 = new List<bool>();
+	List<bool> way2 = new List<bool>();
+
+
 }
