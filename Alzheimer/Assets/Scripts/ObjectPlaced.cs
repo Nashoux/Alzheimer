@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPlaced : PlaceToGo {
+public class ObjectPlaced : MonoBehaviour {
 
+public 	Vector3 positionAvatar;
+public 	Vector3 positionObjet;
 [SerializeField] string objectName;
 public int numberInDictionnary;
 public string zoneName;

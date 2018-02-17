@@ -15,6 +15,7 @@ public class Controller : MonoBehaviour {
 
 
 	PlaceToGo myPlaceToGo;
+	ObjectPlaced myObjectPlaced;
 
 	// Use this for initialization
 	void Start () {
@@ -36,9 +37,9 @@ public class Controller : MonoBehaviour {
 					avatarAgent.SetDestination(myPlaceToGo.positionAvatar);
 					placeToGoIsNext = true;
 					objectToPlacedIsNext = false;
-				}if(hit.collider.GetComponent<ObjectPlaced>()){
-					myPlaceToGo = hit.collider.GetComponent<ObjectPlaced>();
-					avatarAgent.SetDestination(myPlaceToGo.positionAvatar);
+				}else if(hit.collider.GetComponent<ObjectPlaced>()){
+					myObjectPlaced = hit.collider.GetComponent<ObjectPlaced>();
+					avatarAgent.SetDestination(myObjectPlaced.positionAvatar);
 					objectToPlacedIsNext = true;
 					placeToGoIsNext = false;
 				} else{
